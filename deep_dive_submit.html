@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Dive · Submit a Badge</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#007749;--green-dark:#005535;--green-deep:#003d25;--green-light:#e8f5ee;--green-mid:#c2dfd0;--gold:#ffd100;--gold-light:#fffbea;--white:#ffffff;--off-white:#f9faf8;--warm-gray:#6b7a72;--dark:#1a2e23;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--dark);line-height:1.6;}
+  nav{background:var(--green-deep);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;box-shadow:0 2px 16px rgba(0,0,0,0.2);}
+  .nav-brand{display:flex;align-items:center;gap:0.6rem;text-decoration:none;}
+  .nav-logo{width:32px;height:32px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:0.9rem;color:var(--green-deep);}
+  .nav-title{font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.85rem;color:var(--white);line-height:1.2;}
+  .nav-title span{display:block;font-weight:300;font-size:0.72rem;color:rgba(255,255,255,0.5);}
+  .nav-links{display:flex;gap:0.2rem;list-style:none;}
+  .nav-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.78rem;font-weight:500;padding:0.35rem 0.65rem;border-radius:4px;transition:all 0.2s;}
+  .nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.08);}
+  .nav-links a.active{color:var(--gold);}
+  .page-header{background:var(--green);padding:3rem 2rem;}
+  .page-header-inner{max-width:1100px;margin:0 auto;}
+  .page-header-eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,209,0,0.8);margin-bottom:0.5rem;}
+  .page-header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:2.2rem;color:var(--white);}
+  .page-header p{font-size:0.95rem;color:rgba(255,255,255,0.75);margin-top:0.5rem;max-width:580px;line-height:1.7;}
+  section{padding:4rem 2rem;}
+  .container{max-width:1100px;margin:0 auto;}
+
+  .submit-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+  .submit-left h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--dark);margin-bottom:0.75rem;}
+  .submit-left p{font-size:0.95rem;color:var(--warm-gray);line-height:1.75;margin-bottom:1.5rem;}
+  .submit-note{background:var(--gold-light);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:1rem 1.25rem;font-size:0.88rem;color:var(--dark);line-height:1.6;margin-bottom:1.75rem;}
+  .submit-note strong{color:var(--green-dark);}
+  .submit-btn{display:inline-flex;align-items:center;gap:0.6rem;background:var(--green);color:var(--white);font-weight:700;font-size:1rem;padding:1rem 2rem;border-radius:10px;text-decoration:none;transition:all 0.2s;box-shadow:0 4px 16px rgba(0,119,73,0.3);}
+  .submit-btn:hover{background:var(--green-dark);transform:translateY(-2px);}
+
+  .checklist-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,77,49,0.08);}
+  .checklist-header{background:var(--green-deep);padding:1.25rem 1.5rem;}
+  .checklist-header h3{font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;color:var(--gold);}
+  .checklist-header p{font-size:0.78rem;color:rgba(255,255,255,0.6);margin-top:0.2rem;}
+  .checklist-body{padding:1.5rem;}
+  .check-item{display:flex;align-items:flex-start;gap:0.85rem;padding:0.85rem 0;border-bottom:1px solid var(--green-light);}
+  .check-item:last-child{border-bottom:none;}
+  .check-box{width:22px;height:22px;flex-shrink:0;border:2px solid var(--green-mid);border-radius:5px;margin-top:0.1rem;}
+  .check-item p{font-size:0.88rem;color:var(--dark);line-height:1.5;}
+  .check-item p span{display:block;font-size:0.78rem;color:var(--warm-gray);margin-top:0.1rem;}
+
+  .page-nav{background:var(--green-deep);padding:1.25rem 2rem;display:flex;justify-content:space-between;}
+  .page-nav-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--gold);color:var(--green-deep);font-weight:700;font-size:0.88rem;padding:0.65rem 1.4rem;border-radius:8px;text-decoration:none;transition:all 0.2s;}
+  .page-nav-btn:hover{background:var(--white);}
+  .page-nav-btn.secondary{background:rgba(255,255,255,0.1);color:var(--white);}
+  .page-nav-btn.secondary:hover{background:rgba(255,255,255,0.2);}
+  footer{background:#0a1f14;padding:1.5rem 2rem;text-align:center;}
+  footer p{font-size:0.8rem;color:rgba(255,255,255,0.3);}
+  footer p strong{color:rgba(255,255,255,0.5);}
+  @media(max-width:900px){.submit-layout{grid-template-columns:1fr;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="deep_dive_home.html">
+    <div class="nav-logo">N</div>
+    <div class="nav-title">Deep Dive into Future Ready Classrooms<span>Nelson Middle School · Nighthawks</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="deep_dive_home.html">Home</a></li>
+    <li><a href="deep_dive_program.html">The Program</a></li>
+    <li><a href="deep_dive_evidence.html">Evidence & Prompts</a></li>
+    <li><a href="deep_dive_submit.html" class="active">Submit a Badge</a></li>
+    <li><a href="deep_dive_spotlights.html">Spotlights</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="page-header-eyebrow">Submit a Badge</div>
+    <h1>You Did the Work. Let's Celebrate It.</h1>
+    <p>When you have completed a strategy — reflection written and artifact ready — submit your badge below. You can submit badges throughout the year as you complete them.</p>
+  </div>
+</div>
+
+<section style="background:var(--white);">
+  <div class="container">
+    <div class="submit-layout">
+      <div class="submit-left">
+        <h2>Ready to Submit?</h2>
+        <p>Before you click submit, make sure you have everything ready using the checklist on the right. Each badge submission should include your reflection, your artifact, and evidence of what changed for your students.</p>
+        <p>You can submit badges throughout the year — you don't have to wait until the end. Submitting as you go makes the process easier and gives you a chance to get feedback along the way from Schramm or Anuwe.</p>
+        <div class="submit-note">
+          <strong>📋 Google Form coming soon!</strong> The submission form will be linked here at the start of the school year. Check back in August — or reach out to Katherine if you have questions.
+        </div>
+        <a href="#" class="submit-btn" onclick="alert('Submission form coming soon! Check back at the start of the school year.'); return false;">📋 Submit Your Badge</a>
+      </div>
+
+      <div class="checklist-card">
+        <div class="checklist-header">
+          <h3>Submission Checklist</h3>
+          <p>Make sure you have all of these before you submit</p>
+        </div>
+        <div class="checklist-body">
+          <div class="check-item"><div class="check-box"></div><p>Your name and your focus area for this year</p></div>
+          <div class="check-item"><div class="check-box"></div><p>The strategy you used for this badge<span>From your focus area's menu, or an approved self-curated strategy</span></p></div>
+          <div class="check-item"><div class="check-box"></div><p>Your completed reflection<span>All four prompts answered honestly and thoughtfully</span></p></div>
+          <div class="check-item"><div class="check-box"></div><p>Your artifact<span>Student work, lesson design, data summary, or other evidence of impact</span></p></div>
+          <div class="check-item"><div class="check-box"></div><p>Evidence of class impact<span>What changed for your students as a result of this work?</span></p></div>
+          <div class="check-item"><div class="check-box"></div><p>If this is a technology badge: name the tool you used<span>At least one badge in your portfolio must be technology-forward</span></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-nav">
+  <a href="deep_dive_evidence.html" class="page-nav-btn secondary">← Evidence & Prompts</a>
+  <a href="deep_dive_spotlights.html" class="page-nav-btn">Spotlights →</a>
+</div>
+
+<footer>
+  <p><strong>Deep Dive into Future Ready Classrooms</strong> · Nelson Middle School Nighthawks · Frisco ISD · 2026–2027</p>
+</footer>
+</body>
+</html>
